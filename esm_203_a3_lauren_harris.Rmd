@@ -20,10 +20,9 @@ Second, the change in the total amount of groundwater is estimated under three s
 
 ### Source of Data
 
-Data comes from "Visualising a Stochastic Model of Californian Water
-Resources Using Sankey Diagrams" by Curmi et al. (2013).
+Data comes from "Visualising a Stochastic Model of Californian Water Resources Using Sankey Diagrams" by Curmi et al. (2013) as published in the journal Water Resources Management. The paper analyzes two models. The first model is a business as usual scenario in which there are no major changes made to water use. The second model makes the same assumptions as well as anticipating a 20% reduction in average irrigated water use introduced in 2020 and a water use limit of 31.6 × 10$^9$ m$^3$ for agriculture. 
 
-Assumptions:
+Business As Usual Assumptions:
 
 - The population is estimated to increase from 33 million in 2000 to 55 million
 - Food demand from higher population is met by imports
@@ -112,7 +111,6 @@ massbal$gw_low = massbal$w_lost + 190
 massbal$gw_upp = massbal$w_lost + 550
 ```
 
-
 ```{r plot}
 # use ggplot here to create a beautiful plot to include
 
@@ -141,8 +139,8 @@ Figure 2:
 
 - Projections show that if the amount of groundwater storage is higher initially, then groundwater depletion will occur later
 - In a scenario where initial groundwater storage is at the lower bound (190x10$^9$ m$^3$), groundwater will be depleted by 2023
-- In a scenario where initial groundwater storage uses the observed value from 2000 (350x10$^9$ m$^3$), groundwater will be depleted by 2037
-- In a scenario using the upper bound (550x10$^9$ m$^3$), groundwater will be depleted by 2050
+- In a scenario where initial groundwater storage is at the observed value from 2000 (350x10$^9$ m$^3$), groundwater will be depleted by 2037
+- In a scenario where initial storage is at the upper bound (550x10$^9$ m$^3$), groundwater will be depleted by 2050
 
 
 ### Recommendations
