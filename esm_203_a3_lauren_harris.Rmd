@@ -14,13 +14,13 @@ library(latex2exp)
 
 ### Overview
 
-This document analyzes the future of California's groundwater supply. Analyses are made under business as usual conditions, meaning we assume that little about water use has changed over time (assumptions listed in next section). First, the change in California groundwater from 2000 to 2050 is predicted. Second, the change in the total amount of groundwater is estimated under three scenarios with different levels of initial stored groundwater. Groundwater storage estimates are difficult to know without error because the only thing that can be measured is inputs and outputs. Inputs refer to groundwater recharge, an event which occurs when water is added to groundwater via infiltration from rain. Outputs are mainly anthropogenic, and refer to groundwater discharge, where water exits the reservoir. Examples of this include pumping water for agriculture. Based on the results in this analysis, California should expect decreasing groundwater supplies. Net groundwater change is negative, so groundwater is being reduced at a rate faster than it is being replenished. Considering a business as usual situation, California should run out of groundwater sometime between 2023 and 2050, with a mean expected year at 2037. 
+This document analyzes the future of California's groundwater supply. Analyses are made under business as usual conditions, meaning we assume that little about water use will change over time (assumptions listed in next section). First, the change in California groundwater from 2000 to 2050 is predicted. Second, the change in the total amount of groundwater is estimated under three scenarios with different levels of initial stored groundwater. Groundwater storage estimates are difficult to know without error because the only thing that can be measured is inputs and outputs. Inputs refer to groundwater recharge, an event which occurs when water is added to groundwater via infiltration from rain. Outputs are mainly anthropogenic, and refer to groundwater discharge, where water exits the reservoir. Examples of this include pumping water for agriculture. Based on the results in this analysis, California should expect decreasing groundwater supplies. Net groundwater change is negative, so groundwater is being reduced at a rate faster than it is being replenished. Considering a business as usual situation, California should run out of groundwater sometime between 2023 and 2050, with a mean expected year at 2037. 
 
 ### Source of Data
 
-Data comes from "Visualising a Stochastic Model of Californian Water Resources Using Sankey Diagrams" by Curmi et al. (2013) as published in the journal Water Resources Management. The paper analyzes two models. The first model is a business as usual scenario in which there are no major changes made to water use. The second model makes the same assumptions as well as anticipating a 20% reduction in average irrigated water use introduced in 2020 and a water use limit of 31.6 × 10$^9$ m$^3$ for agriculture. 
+Data comes from "Visualising a Stochastic Model of Californian Water Resources Using Sankey Diagrams" by Curmi et al. (2013) as published in the journal Water Resources Management. The paper analyzes two models. The first model is a business as usual scenario in which there are no major changes made to water use. The second model anticipates a 20% reduction in average irrigated water use introduced in 2020 and a water use limit of 31.6 × 10$^9$ m$^3$ for agriculture. 
 
-Business As Usual Assumptions:
+Assumptions (both models):
 
 - The population is estimated to increase from 33 million in 2000 to 55 million
 - Food demand from higher population is met by imports
@@ -121,11 +121,11 @@ ggplot(massbal) +
   xlab("Year") + 
   ylab(TeX("Groundwater storage ($10^9$ $m^3$)")) + 
   theme(legend.title = element_blank()) + 
-  ggtitle("Projected Groundwater Storage (Business As Usual)") +
+  ggtitle("Projected California Groundwater Storage (Business As Usual)") +
   scale_color_manual(values = c("black", "blue"))
 ```
 
-**Figure 2.** Black line represents the projected average of total groundwater storage (10^9 m^3) in California from 2000 to 2050 under business as usual conditions. Confidence interval is 90%. Blue dashed lines show upper and lower bounds of groundwater storage. The pink box represents groundwater deficit. Data: Curmi et al. (2013)
+**Figure 2.** Black line represents the projected average of total groundwater storage (10^9 m^3) in California from 2000 to 2050 under business as usual conditions. The initial groundwater storage level in 2000 was 350x10$^9$ m$^3$ with a standard deviation of 115x10$^9$ m$^3$. Confidence interval is 90%. Given a normal distribution, there is a 90% chance that the actual amount of groundwater in CA is between the lower limit of 190x10$^9$ m$^3$ and the upper limit of 550x10$^9$ m$^3$. Blue dashed lines show upper and lower bounds of groundwater storage. The pink box represents groundwater deficit. Data: Curmi et al. (2013)
 
 ### Key Results
 
