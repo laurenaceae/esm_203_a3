@@ -34,7 +34,6 @@ Uncertainty:
 - There is uncertainty regarding how much groundwater is in the reservoir at any given time, including at current times
 - The initial groundwater storage level in 2000 was 350x10$^9$ m$^3$ with a standard deviation of 115x10$^9$ m$^3$
 - Given a normal distribution, there is a 90% chance that the actual amount of groundwater in CA is between the lower limit of 190x10$^9$ m$^3$ and the upper limit of 550x10$^9$ m$^3$
-- Uncertainty from 2000 to 2011 is 0, as these data are observational and not predicted
 
 ### Analysis 
 
@@ -93,7 +92,7 @@ lm_change_per_year <- lm(c(chng00, chng50) ~ year)
 massbal$chnge_lm <- -0.226*massbal$years + 446.6
 ```
 
-**Figure 1.** Predicted groundwater flux (10$^9$ m$^3$) from 2000 to 2050 in California given a business as usual scenario. Change in groundwater is equal to inputs minus outputs. Groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10` 10$^9$ m$^3$ every ten years. Data: Curmi et al. (2013)
+**Figure 1.** Predicted groundwater flow (10$^9$ m$^3$) from 2000 to 2050 in California given a business as usual scenario. Predicted net change in groundwater is equal to inputs minus outputs. Net change in groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10` 10$^9$ m$^3$ every ten years. Data: Curmi et al. (2013)
 
 ```{r scenarios}
 # all of the flows were also 10^9, so there is no need for unit conversions
@@ -127,7 +126,7 @@ ggplot(massbal) +
   scale_color_manual(values = c("black", "blue"))
 ```
 
-**Figure 2.** Black line represents the projected average of total groundwater storage (10^9 m^3) in California from 2000 to 2050 under business as usual conditions. The initial groundwater storage level in 2000 was 350x10$^9$ m$^3$ with a standard deviation of 115x10$^9$ m$^3$. Confidence interval is 90%. Given a normal distribution, there is a 90% chance that the actual amount of groundwater in CA is between the lower limit of 190x10$^9$ m$^3$ and the upper limit of 550x10$^9$ m$^3$. Blue dashed lines show upper and lower bounds of groundwater storage. The pink box represents groundwater deficit. Data: Curmi et al. (2013)
+**Figure 2.** Projected  total groundwater storage (10$^9$ m$^3$) in California from 2000 to 2050 under business as usual conditions. Black line represents the mean projected total groundwater storage. The initial groundwater storage level in 2000 was 350x10$^9$ m$^3$ with a standard deviation of 115x10$^9$ m$^3$. Confidence interval is 90%. Given a normal distribution, there is a 90% chance that the actual amount of groundwater in CA is between the lower limit of 190x10$^9$ m$^3$ and the upper limit of 550x10$^9$ m$^3$. Blue dashed lines show upper and lower bounds of groundwater storage. The pink box represents a level of groundwater that is at or below zero. Data: Curmi et al. (2013)
 
 ### Key Results
 
@@ -160,4 +159,4 @@ Possible changes to policy include:
 
 ### Citation
 
-Curmi, E., Fenner, R., Richards, K. et al. Water Resource Management (2013) 27: 3035. https://doi.org/10.1007/s11269-013-0331-2
+Curmi, Elizabeth, et al. “Visualising a Stochastic Model of Californian Water Resources Using Sankey Diagrams.” Water Resources Management, vol. 27, June 2013. ResearchGate, https://doi.org/10.1007/s11269-013-0331-2.
