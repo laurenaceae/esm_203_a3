@@ -1,0 +1,154 @@
+---
+title: "California Groundwater Mass Balance Projections"
+author: "Lauren Harris"
+date: "11/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, results = TRUE)
+library(stats)
+library(tidyverse)
+library(latex2exp)
+```
+
+### Overview
+
+This document analyzes the future of California's groundwater supply. Analyses are made under business as usual conditions, meaning we assume that little about water use has changed over time (assumptions listed in next section). First, the change in California groundwater from 2000 to 2050 is predicted. 
+
+Second, the change in the total amount of groundwater is estimated under three scenarios with different levels of initial stored groundwater. Groundwater storage estimates are difficult to know without error because the only thing that can be measured is input and outputs. Inputs refer to groundwater recharge, an event which occurs when water is added to groundwater via infiltration from rain. Outputs are mainly anthropogenic, and refer to groundwater discharge, where water exits the reservoir. Examples of this include pumping water for agriculture. 
+
+### Source of Data
+
+Data comes from "Visualising a Stochastic Model of Californian Water
+Resources Using Sankey Diagrams" by Curmi et al. (2013).
+
+Assumptions:
+
+- The population is estimated to increase from 33 million in 2000 to 55 million
+- Food demand from higher population is met by imports
+- A policy is introduced to reduce urban per-capita water use by 2020 
+- Average groundwater will still meet about 30 % of California’s urban and agricultural water demand (but 40+% in a dry year)
+- Adjustments made for differences in snowpack and timing of snowmelt
+
+Uncertainty: 
+
+- The initial groundwater storage level in 2000 was 350x10$^9$ m$^3$ with a standard deviation of 115x10$^9$ m$^3$
+- Given a normal distribution, there is a 90% chance that the actual amount of groundwater in CA is between the lower limit of 190x10$^9$ m$^3$ and the upper limit of 550x10$^9$ m$^3$
+- Uncertainty from 2000 to 2011 is 0, as these data are observational and not predicted
+
+### Analysis 
+
+All analyses are in R version 4.0.2 using RStudio version 2021.09.0.
+
+```{r fig2}
+# calculating in flow for 2000 
+out00 = 18.2
+chng00 = -5.4
+in00 =  chng00 + out00
+```
+
+```{r fig4}
+# calculating in flow for 2050 in BAU scenario
+out50 = 27
+chng50 = -16.7
+in50 = out50 + chng50
+```
+
+```{r linear}
+# fit linear trend lines between the years 2000-2050
+year <- c(2000, 2050)
+
+# trend line for inputs
+in_trend <- c(in00, in50)
+in_lm <- lm(in_trend ~ year)
+
+# trend line for outputs
+out_trend <- c(out00, out50)
+out_lm <- lm(out_trend ~ year)
+```
+
+```{r}
+# create a data frame with all the years from 2000-2050
+years <- seq(from=2000, to=2050, by=1)
+massbal <- as.data.frame(years)
+
+# use the equation from lm to fill in columns for ins and outs
+massbal$ins = -0.05*massbal$years + 112.8
+massbal$outs = 0.176*massbal$years + -333.8
+```
+
+```{r}
+# can do mass balance for each year to see the changes 
+massbal$chnge = massbal$ins - massbal$outs
+ggplot(massbal) + 
+  geom_line(aes(x=years, y=chnge, color = "blue")) +
+  xlab("Year") + 
+  ylab(TeX("Change in groundwater (10$^9$ m$^3$)")) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ggtitle("Projected Change in California Groundwater (Business As Usual)")
+
+# can also get the linear model of the change each year
+lm_change_per_year <- lm(c(chng00, chng50) ~ year)
+massbal$chnge_lm <- -0.226*massbal$years + 446.6
+```
+
+**Figure 1.** Predicted groundwater flux (10$^9$ m$^3$) from 2000 to 2050 in California given a business as usual scenario. Change in groundwater is equal to inputs minus outputs. Groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10` 10$^9$ m$^3$ every ten years. Data: Curmi et al. (2013)
+
+```{r scenarios}
+# all of the flows were also 10^9, so there is no need for unit conversions
+
+# integrate over the water lost starting in 2000
+water_lost <- function(year){
+  int <- integrate(function(x){-0.226*x + 446.6}, lower = 2000, upper = year) #this function comes from the linear model of change over year
+  return(int$value)
+}
+massbal$w_lost <- sapply(massbal$years, water_lost)
+
+# create columns for the average, lower bounds, and upper bounds
+massbal$gw_storage = massbal$w_lost + 350
+massbal$gw_low = massbal$w_lost + 190
+massbal$gw_upp = massbal$w_lost + 550
+```
+
+
+```{r plot}
+# use ggplot here to create a beautiful plot to include
+
+# example plot which we don't need to show - not the nicest
+ggplot(massbal) + 
+  geom_rect(aes(ymin=-Inf, ymax=0, xmin=2000, xmax=2050), alpha = 0.02, fill='red') +
+  geom_line(aes(x=years, y=gw_storage, col='Average')) +
+  geom_line(aes(x=years, y=gw_low, col='Bounds'), linetype='dashed') + 
+  geom_line(aes(x=years, y=gw_upp, col='Bounds'), linetype='dashed') +
+  xlab("Year") + 
+  ylab(TeX("Groundwater storage ($10^9$ $m^3$)")) + 
+  theme(legend.title = element_blank()) + 
+  ggtitle("Projected Groundwater Storage (Business As Usual)")
+```
+
+**Figure 2.** Red line represents the projected average of total groundwater storage (10^9 m^3) in California from 2000 to 2050 under business as usual conditions. Confidence interval is 90%. Blue dashed lines show upper and lower bounds of groundwater storage. The red box represents groundwater deficit. Data: Curmi et al. (2013)
+
+### Key Results
+
+Figure 1:
+
+- Net change in California's groundwater is negative
+- California's groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10` 10$^9$ m$^3$ every ten years in a business as usual situation
+
+Figure 2:
+
+- Projections show that if the amount of groundwater storage is higher initially, then groundwater depletion will occur later
+- In a scenario where initial groundwater storage is at the lower bound (190x10$^9$ m$^3$), groundwater will be depleted by 2023
+- In a scenario where initial groundwater storage uses the observed value from 2000 (350x10$^9$ m$^3$), groundwater will be depleted by 2037
+- In a scenario using the upper bound (550x10$^9$ m$^3$), groundwater will be depleted by 2050
+
+
+### Recommendations
+
+The change in groundwater becomes more negative over time. This means an increasing amount of water is being removed from groundwater storage. Negative net change is not sustainable; change in groundwater must be positive or net zero for groundwater to be available in future years. Political action must be taken as soon as possible in order to initiate groundwater conservation before groundwater reaches critically low levels. 2023 is the earliest by which groundwater may be fully depleted (given a 90% confidence interval, and under the scenario with the least amount of starting groundwater), so action must be taken before then. Extensive policy measures to reduce water use will ensure a supply of groundwater that lasts for future generations. 
+
+### Citation
+
+Curmi, E., Fenner, R., Richards, K. et al. Water Resource Management (2013) 27: 3035. https://doi.org/10.1007/s11269-013-0331-2
