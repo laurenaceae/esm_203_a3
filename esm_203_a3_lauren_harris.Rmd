@@ -30,6 +30,8 @@ Assumptions (both models):
 
 Uncertainty: 
 
+- There is uncertainty regarding how much groundwater will be recharged or discharged in the future
+- There is uncertainty regarding how much groundwater is in the reservoir at any given time, including at current times
 - The initial groundwater storage level in 2000 was 350x10$^9$ m$^3$ with a standard deviation of 115x10$^9$ m$^3$
 - Given a normal distribution, there is a 90% chance that the actual amount of groundwater in CA is between the lower limit of 190x10$^9$ m$^3$ and the upper limit of 550x10$^9$ m$^3$
 - Uncertainty from 2000 to 2011 is 0, as these data are observational and not predicted
@@ -149,6 +151,12 @@ The change in groundwater becomes more negative over time. This means an increas
 ### Next Steps for Analysis
 
 Future work will integrate proposed policies into the models to see how much action is necessary to preserve groundwater resources. This will help determine what political steps must be taken, and how quickly. 
+
+Possible changes to policy include: 
+
+ - Determining how groundwater use can be minimized agriculturally
+ - Analyzing ways to increase groundwater recharge
+ - Restricting private water use, especially in drier seasons
 
 ### Citation
 
