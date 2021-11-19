@@ -25,7 +25,7 @@ Business As Usual Assumptions:
 - The population is estimated to increase from 33 million in 2000 to 55 million
 - Food demand from higher population is met by imports
 - A policy is introduced to reduce urban per-capita water use by 2020 
-- Average groundwater will still meet about 30 % of California’s urban and agricultural water demand (but 40+% in a dry year)
+- Average groundwater will still meet about 30% of California’s urban and agricultural water demand (but 40+% in a dry year)
 - Adjustments made for differences in snowpack and timing of snowmelt
 
 Uncertainty: 
