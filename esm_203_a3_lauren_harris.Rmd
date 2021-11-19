@@ -153,8 +153,8 @@ Future work will integrate proposed policies into the models to see how much act
 
 Possible changes to policy include: 
 
- - Determining how groundwater use can be minimized agriculturally
- - Analyzing ways to increase groundwater recharge
+ - Minimized agricultural water use through increased food imports
+ - Raising groundwater recharge rates by reducing the ratio of concrete to natural ground in order to increase soil infiltration
  - Restricting private water use, especially in drier seasons
 
 ### Citation
