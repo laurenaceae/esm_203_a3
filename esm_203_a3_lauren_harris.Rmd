@@ -14,11 +14,11 @@ library(latex2exp)
 
 ### Overview
 
-This document analyzes the future of California's groundwater supply. Analyses are made under business as usual conditions, meaning we assume that little about water use will change over time (assumptions listed in next section). First, the change in California groundwater from 2000 to 2050 is predicted. Second, the change in the total amount of groundwater is estimated under three scenarios with different levels of initial stored groundwater. Groundwater storage estimates are difficult to know without error because the only thing that can be measured is inputs and outputs. Inputs refer to groundwater recharge, an event which occurs when water is added to groundwater via infiltration from rain. Outputs are mainly anthropogenic, and refer to groundwater discharge, where water exits the reservoir. Examples of this include pumping water for agriculture. Based on the results in this analysis, California should expect decreasing groundwater supplies. Net groundwater change is negative, so groundwater is being reduced at a rate faster than it is being replenished. Considering a business as usual situation, California should run out of groundwater sometime between 2023 and 2050, with a mean expected year at 2037. 
+This document analyzes the future of California's groundwater supply. Analyses are made under business as usual conditions, meaning we assume that little about water use will change over time (assumptions listed in next section). First, the change in California groundwater from 2000 to 2050 is predicted. Second, the change in the total amount of groundwater is estimated under three scenarios with different levels of initial stored groundwater. Groundwater storage estimates are difficult to know without error because the only thing that can be measured is inputs and outputs. Inputs refer to groundwater recharge, an event which occurs when water is added to groundwater via infiltration from rain. Outputs are mainly anthropogenic, and refer to groundwater discharge, where water exits the reservoir. Examples of this include pumping water for agriculture. Based on the results in this analysis, California should expect decreasing groundwater supplies. Net groundwater change is negative, so groundwater is being reduced at a rate faster than it is being replenished. Considering a business as usual situation, California should run out of groundwater sometime between 2023 and 2050, with a mean expected year of 2037. 
 
 ### Source of Data
 
-Data comes from "Visualising a Stochastic Model of Californian Water Resources Using Sankey Diagrams" by Curmi et al. (2013) as published in the journal Water Resources Management. The paper analyzes two models. The first model is a business as usual scenario in which there are no major changes made to water use. The second model anticipates a 20% reduction in average irrigated water use introduced in 2020 and a water use limit of 31.6 × 10$^9$ m$^3$ for agriculture. 
+Data comes from "Visualising a Stochastic Model of Californian Water Resources Using Sankey Diagrams" by Curmi et al. (2013) as published in the journal Water Resources Management. The paper analyzes two models. The first model is a business as usual scenario in which there are no major changes made to water use. The second model anticipates a 20% reduction in average irrigated water use introduced in 2020 and a water use limit of 31.6×10$^9$ m$^3$ for agriculture. 
 
 Assumptions (both models):
 
@@ -80,11 +80,10 @@ massbal$outs = 0.176*massbal$years + -333.8
 # can do mass balance for each year to see the changes 
 massbal$chnge = massbal$ins - massbal$outs
 ggplot(massbal) + 
-  geom_line(aes(x=years, y=chnge, color = "blue")) +
+  geom_line(aes(x=years, y=chnge)) +
   xlab("Year") + 
   ylab(TeX("Change in groundwater (10$^9$ m$^3$)")) +
   theme_minimal() +
-  theme(legend.position = "none") +
   ggtitle("Projected Change in California Groundwater (Business As Usual)")
 
 # can also get the linear model of the change each year
@@ -92,7 +91,7 @@ lm_change_per_year <- lm(c(chng00, chng50) ~ year)
 massbal$chnge_lm <- -0.226*massbal$years + 446.6
 ```
 
-**Figure 1.** Predicted groundwater flow (10$^9$ m$^3$) from 2000 to 2050 in California given a business as usual scenario. Predicted net change in groundwater is equal to inputs minus outputs. Net change in groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10` 10$^9$ m$^3$ every ten years. Data: Curmi et al. (2013)
+**Figure 1.** Predicted groundwater flow (10$^9$ m$^3$) from 2000 to 2050 in California given a business as usual scenario. Predicted net change in groundwater is equal to inputs minus outputs. Net change in groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10`x10$^9$ m$^3$ every ten years. Data: Curmi et al. (2013)
 
 ```{r scenarios}
 # all of the flows were also 10^9, so there is no need for unit conversions
@@ -133,8 +132,8 @@ ggplot(massbal) +
 Figure 1:
 
 - Net change in California's groundwater is negative
-- California's groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10` 10$^9$ m$^3$ every ten years in a business as usual situation
-- Change in groundwater begins at `r max(massbal$chnge)` 10$^9$ m$^3$ in `r massbal[massbal$chnge == max(massbal$chnge), ]$year` and decreases to `r min(massbal$chnge)` 10$^9$ m$^3$ in `r massbal[massbal$chnge == min(massbal$chnge), ]$year`
+- California's groundwater will decrease by `r lm_change_per_year$coefficients[2]*-10`x10$^9$ m$^3$ every ten years in a business as usual situation
+- Change in groundwater begins at `r max(massbal$chnge)`x10$^9$ m$^3$ in `r massbal[massbal$chnge == max(massbal$chnge), ]$year` and decreases to `r min(massbal$chnge)`x10$^9$ m$^3$ in `r massbal[massbal$chnge == min(massbal$chnge), ]$year`
 
 Figure 2:
 
@@ -153,7 +152,7 @@ Future work will integrate proposed policies into the models to see how much act
 
 Possible changes to policy include: 
 
- - Minimized agricultural water use through increased food imports
+ - Minimizing agricultural water use through increased food imports
  - Raising groundwater recharge rates by reducing the ratio of concrete to natural ground in order to increase soil infiltration
  - Restricting private water use, especially in drier seasons
 
